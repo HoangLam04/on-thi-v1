@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#4169E1">
+<title>REVISION — Study Tracker</title>
+<style>
+:root{--blue:#4169E1;--ink:#171717;--paper:#fff;--soft:#f3f5ff;--yellow:#ffe66d;--green:#b8f2cf;--red:#ffb8b8;--line:3px solid var(--ink);--shadow:5px 5px 0 var(--ink)}
+*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:var(--line);background:var(--blue);color:white;font-weight:850;padding:10px 14px;box-shadow:3px 3px 0 var(--ink);transition:.12s}button:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}button.secondary{background:white;color:var(--ink)}button.yellow{background:var(--yellow);color:var(--ink)}button.small{padding:6px 9px;font-size:.82rem}
+header{background:var(--blue);color:white;border-bottom:var(--line);padding:22px max(18px,calc((100% - 1180px)/2));}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:clamp(1.7rem,4vw,2.7rem);font-weight:1000;letter-spacing:-1.5px}.brand span{color:var(--yellow)}.sub{font-size:.85rem;font-weight:700;opacity:.9}
+main{max-width:1180px;margin:24px auto;padding:0 18px 60px}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.toolbar .spacer{flex:1}
+.hero{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-bottom:22px}.panel,.subject,.stat{border:var(--line);box-shadow:var(--shadow);background:white;padding:17px}.panel.blue{background:var(--soft)}.eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:1.2px;font-weight:950;color:#4c4c4c}.big{font-size:clamp(2rem,5vw,3.2rem);font-weight:1000;line-height:1.05;margin:8px 0}.muted{color:#626262;font-size:.9rem}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}.stat{padding:12px;box-shadow:3px 3px 0 var(--ink)}.stat strong{display:block;font-size:1.6rem}
+h2{font-size:1.25rem;margin:28px 0 13px;font-weight:1000;letter-spacing:-.4px}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.subject{padding:0;overflow:hidden}.subject-head{padding:15px;background:var(--soft);border-bottom:var(--line)}.subject-head h3{margin:0 0 6px;font-size:1.05rem}.subject-body{padding:15px}.row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.pill{display:inline-block;border:2px solid var(--ink);padding:3px 8px;font-size:.72rem;font-weight:900;background:var(--yellow)}.pill.red{background:var(--red)}.pill.green{background:var(--green)}
+.progress{height:13px;border:2px solid var(--ink);background:white;margin:9px 0 12px}.progress>i{display:block;height:100%;background:var(--blue);width:0%}.subject-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.task-list{display:grid;gap:9px}.task{border:2px solid var(--ink);padding:12px;display:flex;align-items:center;gap:10px;background:#fff}.task .taskmain{flex:1;min-width:0}.task strong{display:block}.task small{color:#666}.task button{white-space:nowrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.dayplan{background:var(--yellow);border:var(--line);box-shadow:var(--shadow);padding:17px}.dayline{padding:10px 0;border-bottom:2px dashed #777}.dayline:last-child{border:0}
+.field{display:grid;gap:5px;margin:10px 0}.field label{font-size:.82rem;font-weight:900}.field input,.field select,.field textarea{border:2px solid var(--ink);padding:10px;background:white;width:100%;min-width:0}.field textarea{min-height:75px;resize:vertical}
+.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:16px;z-index:5}.modal.open{display:flex}.dialog{background:white;border:var(--line);box-shadow:8px 8px 0 #111;max-width:700px;width:100%;max-height:90vh;overflow:auto;padding:20px}.dialog h2{margin:0 0 12px}.question-list{display:grid;gap:8px;margin-top:14px}.qrow{display:grid;grid-template-columns:50px 1fr auto;gap:8px;align-items:center;border:2px solid var(--ink);padding:8px}.qrow input{width:100%;min-width:0;border:1.5px solid #777;padding:7px}.qrow .qmeta{font-size:.72rem;color:#666}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.tabs button.active{background:var(--yellow);color:var(--ink)}
+.log{border-left:4px solid var(--blue);padding:5px 0 8px 12px;margin:8px 0}.empty{padding:20px;border:2px dashed #888;color:#666;text-align:center}
+footer{text-align:center;color:#666;font-size:.8rem;margin-top:35px}
+@media(max-width:760px){.hero,.grid2,.cards{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}main{padding:0 13px 40px}.panel,.subject{box-shadow:3px 3px 0 var(--ink)}header{padding:17px 15px}.qrow{grid-template-columns:38px 1fr}.qrow button{grid-column:2;justify-self:start}.task{align-items:flex-start}.task button{padding:7px 9px}}
+@media(max-width:390px){.stats{grid-template-columns:1fr 1fr}.task{flex-wrap:wrap}.task .taskmain{flex-basis:65%}}
+</style>
+</head>
+<body>
+<header><div class="topline"><div><div class="brand">RE<span>:</span>VISION</div><div class="sub">YOUR EXAM COMMAND CENTER / 2026</div></div><div class="sub" id="todayLabel"></div></div></header>
+<main>
+<div class="toolbar">
+  <button id="todayBtn">☀ Hôm nay</button><button class="secondary" id="journalBtn">＋ Ghi nhật ký</button>
+  <span class="spacer"></span><button class="secondary small" id="exportBtn">Xuất dữ liệu</button><button class="secondary small" id="importBtn">Nhập dữ liệu</button><input type="file" id="fileInput" accept="application/json" hidden>
+</div>
+<section class="hero">
+ <div class="panel blue"><div class="eyebrow">Mục tiêu hôm nay</div><div class="big" id="todayHours">—</div><div id="todaySummary" class="muted">Đang tính lịch ôn tập…</div><div class="stats"><div class="stat"><span class="eyebrow">Đã học</span><strong id="doneCount">0</strong><small>lượt ghi nhận</small></div><div class="stat"><span class="eyebrow">Đến hạn</span><strong id="dueCount">0</strong><small>câu cần ôn</small></div><div class="stat"><span class="eyebrow">Ngày thi gần nhất</span><strong id="nearest">—</strong><small>còn lại</small></div></div></div>
+ <div class="dayplan"><div class="eyebrow">Lịch ôn tập đề xuất</div><h2 style="margin:7px 0">Học thông minh, không học dồn.</h2><p id="planText">Phân bổ thời gian dựa trên độ dài đề cương, độ gần ngày thi và số giờ học bạn có.</p><div class="field"><label for="hours">Thời gian học mỗi ngày (giờ)</label><input id="hours" type="number" min="0.5" max="16" step=".5" value="4"></div><div class="muted">Bạn có thể thay đổi số giờ để lịch tự tính lại.</div></div>
+</section>
+<h2>01 / Học phần & tiến độ</h2>
+<div class="cards" id="subjects"></div>
+<div class="grid2">
+ <section><h2>02 / Việc cần làm hôm nay</h2><div id="todayTasks" class="task-list"></div></section>
+ <section><h2>03 / Nhật ký ôn thi</h2><div id="journal" class="panel"></div></section>
+</div>
+<section><h2>04 / Nguyên tắc lặp lại ngắt quãng</h2><div class="panel"><p><b>Sau mỗi lần học/ôn:</b> hệ thống đặt lịch ôn tiếp theo theo mức độ nhớ của bạn.</p><div class="stats"><div class="stat"><strong>1 ngày</strong><small>Nhớ chưa tốt</small></div><div class="stat"><strong>3 ngày</strong><small>Nhớ tạm ổn</small></div><div class="stat"><strong>6 ngày</strong><small>Nhớ tốt</small></div></div><p class="muted">Vì kỳ thi đang đến gần, lịch ôn sẽ không đẩy lần ôn nào vượt quá ngày thi. Câu chưa từng học luôn được ưu tiên trước câu đã nhớ tốt.</p></div></section>
+<footer>Dữ liệu được lưu trên trình duyệt này bằng localStorage · Hãy xuất dữ liệu định kỳ để sao lưu.</footer>
+</main>
+<div class="modal" id="modal"><div class="dialog"><div class="row"><h2 id="modalTitle">Chi tiết</h2><button class="secondary small" id="closeModal">Đóng ✕</button></div><div id="modalBody"></div></div></div>
+<script>
+const KEY='revision_tracker_v1';
+const initial=[
+ {id:'cn',name:'Chăn nuôi CNC',exam:'2026-11-25',count:15,type:'standard',weight:1,desc:'15 câu · Khối lượng vừa'},
+ {id:'ts',name:'Công nghệ thủy sản',exam:'2026-11-27',count:11,type:'standard',weight:1,desc:'11 câu · Khối lượng vừa'},
+ {id:'pt',name:'Phương tiện dạy học',exam:'2026-12-08',count:6,type:'long',weight:3,desc:'6 câu dài · Cần thời gian đào sâu'},
+ {id:'tdh',name:'Các kiểu tổ chức dạy học hiện đại',exam:'2026-12-10',count:60,type:'short',weight:.5,desc:'60 câu ngắn · Chia thành nhóm nhỏ'}
+];
+const todayISO=()=>{let d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const dateObj=s=>new Date(s+'T00:00:00');
+const diff=(a,b)=>Math.round((dateObj(b)-dateObj(a))/86400000);
+const fmt=s=>dateObj(s).toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'});
+let state=load();
+function load(){try{let x=JSON.parse(localStorage.getItem(KEY));if(x&&x.subjects)return x}catch(e){}return {subjects:initial.map(s=>({...s,questions:Array.from({length:s.count},(_,i)=>({id:i+1,title:`Câu ${i+1}`,level:0,last:null,due:null,logs:[]}))})),journal:[],hours:4}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function sub(id){return state.subjects.find(s=>s.id===id)}
+function allQs(){return state.subjects.flatMap(s=>s.questions.map(q=>({...q,sid:s.id,sname:s.name,exam:s.exam,weight:s.weight})))}
+function dueQs(day=todayISO()){return allQs().filter(q=>!q.due||q.due<=day).filter(q=>q.exam>=day)}
+function daysLeft(s){return Math.max(0,diff(todayISO(),s.exam))}
+function formatHours(h){return `${h.toFixed(1).replace('.0','')} giờ`}
+function allocation(){
+ const hours=Number(state.hours)||4, today=todayISO(), remain=state.subjects.filter(s=>s.exam>=today);
+ // Weighted urgency: workload per remaining day, with a stronger short-horizon boost.
+ let scores=remain.map(s=>{let unmastered=s.questions.filter(q=>q.level<3).length;let workload=s.questions.reduce((a,q)=>a+(q.level>=3?.25:s.weight),0);let d=Math.max(1,daysLeft(s)+1);let urgency=1+5/(d+1);return {s,score:(workload+unmastered*.25)*urgency/Math.sqrt(d)}});
+ let sum=scores.reduce((a,x)=>a+x.score,0)||1;
+ return scores.map(x=>({...x,hrs:hours*x.score/sum})).sort((a,b)=>b.hrs-a.hrs);
+}
+function render(){
+ document.getElementById('todayLabel').textContent=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ document.getElementById('hours').value=state.hours;
+ let alloc=allocation(), due=dueQs(), studied=state.journal.reduce((a,j)=>a+(j.count||1),0);
+ document.getElementById('todayHours').textContent=formatHours(Number(state.hours)||4);
+ document.getElementById('todaySummary').textContent=`${due.length} câu đang đến hạn · ${alloc.length} học phần còn lịch thi`;
+ document.getElementById('doneCount').textContent=studied;
+ document.getElementById('dueCount').textContent=due.length;
+ let nearest=state.subjects.filter(s=>s.exam>=todayISO()).sort((a,b)=>a.exam.localeCompare(b.exam))[0];
+ document.getElementById('nearest').textContent=nearest?`${daysLeft(nearest)} ngày`:'—';
+ document.getElementById('planText').textContent=alloc.map(x=>`${x.s.name}: ${formatHours(x.hrs)}`).join(' · ')||'Bạn đã hoàn thành các kỳ thi!';
+ document.getElementById('subjects').innerHTML=state.subjects.map(s=>{
+  let mastered=s.questions.filter(q=>q.level>=3).length, pct=Math.round(mastered/s.questions.length*100), left=daysLeft(s);
+  return `<article class="subject"><div class="subject-head"><div class="row"><h3>${esc(s.name)}</h3><span class="pill ${left<=3?'red':''}">${left} ngày nữa</span></div><div class="muted">Ngày thi ${fmt(s.exam)} · ${s.count} câu · ${s.type==='long'?'Câu dài':s.type==='short'?'Câu ngắn':'Tiêu chuẩn'}</div></div><div class="subject-body"><div class="row"><b>${mastered}/${s.count} câu nhớ vững</b><span>${pct}%</span></div><div class="progress"><i style="width:${pct}%"></i></div><div class="muted">Ước lượng hôm nay: ${formatHours((alloc.find(x=>x.s.id===s.id)||{hrs:0}).hrs)} · ${s.questions.filter(q=>!q.due||q.due<=todayISO()).length} câu đến hạn</div><div class="subject-actions"><button class="small" onclick="openSubject('${s.id}')">Mở đề cương / ghi ôn</button><button class="small secondary" onclick="quickStudy('${s.id}')">Ôn câu tiếp theo</button></div></div></article>`
+ }).join('');
+ let tasks=due.slice().sort((a,b)=>a.level-b.level||a.exam.localeCompare(b.exam)).slice(0,12);
+ document.getElementById('todayTasks').innerHTML=tasks.length?tasks.map(q=>`<div class="task"><div class="taskmain"><strong>${esc(q.sname)} · ${esc(q.title)}</strong><small>${q.last?'Ôn gần nhất: '+fmt(q.last):'Chưa học'} · ${q.level===0?'Chưa học':`Mức nhớ ${q.level}/3`}</small></div><button class="small" onclick="review('${q.sid}',${q.id})">Ôn ngay</button></div>`).join(''):'<div class="empty">Không còn câu đến hạn hôm nay. Tuyệt vời!</div>';
+ let logs=state.journal.slice(0,8);
+ document.getElementById('journal').innerHTML=logs.length?logs.map(j=>`<div class="log"><b>${esc(j.subject)}</b><div>${esc(j.note||'Đã ghi nhận lượt ôn')} </div><small>${fmt(j.date)} · ${j.minutes||0} phút · ${j.count||1} câu</small></div>`).join(''):'<div class="empty">Chưa có nhật ký. Hãy bắt đầu một lượt ôn!</div>';
+ save();
+}
+function esc(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+const modal=document.getElementById('modal'), body=document.getElementById('modalBody');
+function show(title,html){document.getElementById('modalTitle').textContent=title;body.innerHTML=html;modal.classList.add('open')}
+function close(){modal.classList.remove('open')}
+document.getElementById('closeModal').onclick=close;modal.addEventListener('click',e=>{if(e.target===modal)close()});
+function openSubject(id){
+ let s=sub(id);
+ show(s.name,`<p class="muted">Ngày thi ${fmt(s.exam)} · Chỉnh sửa tên câu hỏi nếu đề cương của bạn có tên cụ thể. Mỗi câu có thể được ghi nhận mức độ nhớ sau khi ôn.</p><div class="question-list">${s.questions.map(q=>`<div class="qrow"><b>#${q.id}</b><div><input aria-label="Tên câu ${q.id}" value="${esc(q.title)}" onchange="renameQ('${id}',${q.id},this.value)"><div class="qmeta">${q.last?'Lần cuối: '+fmt(q.last):'Chưa ôn'} · ${q.due?'Ôn lại: '+fmt(q.due):'Chưa có lịch'}</div></div><button class="small" onclick="review('${id}',${q.id})">Ôn</button></div>`).join('')}</div>`);
+}
+function renameQ(id,qid,val){sub(id).questions.find(q=>q.id===qid).title=val;save()}
+function review(id,qid){
+ let s=sub(id),q=s.questions.find(x=>x.id===qid);
+ show('Ghi nhận ôn tập',`<p><b>${esc(s.name)} · ${esc(q.title)}</b></p><p>Bạn nhớ câu này ở mức nào?</p><div class="field"><label>Mức độ ghi nhớ</label><select id="level"><option value="1">1 — Khó nhớ, cần học lại sớm</option><option value="2">2 — Nhớ tương đối</option><option value="3">3 — Nhớ tốt, có thể giãn cách</option></select></div><div class="field"><label>Thời gian ôn (phút)</label><input id="mins" type="number" min="1" value="${s.type==='long'?25:s.type==='short'?5:12}"></div><div class="field"><label>Ghi chú (không bắt buộc)</label><textarea id="note" placeholder="Ví dụ: cần xem lại ý 2, nhầm khái niệm..."></textarea></div><button onclick="saveReview('${id}',${qid})">Lưu lượt ôn</button>`);
+}
+function saveReview(id,qid){
+ let s=sub(id),q=s.questions.find(x=>x.id===qid),level=Number(document.getElementById('level').value),minutes=Math.max(1,Number(document.getElementById('mins').value)||1),note=document.getElementById('note').value.trim(),today=todayISO();
+ let gap=level===1?1:level===2?3:6, due=new Date(dateObj(today).getTime()+gap*86400000);let dueStr=`${due.getFullYear()}-${String(due.getMonth()+1).padStart(2,'0')}-${String(due.getDate()).padStart(2,'0')}`;
+ q.level=level;q.last=today;q.due=dueStr<=s.exam?dueStr:null;
+ state.journal.unshift({date:today,subject:s.name,sid:id,qid,count:1,minutes,note:note||`Ôn ${q.title} — mức nhớ ${level}/3`});
+ save();render();openSubject(id);
+}
+function quickStudy(id){let s=sub(id),q=s.questions.filter(q=>!q.due||q.due<=todayISO()).sort((a,b)=>a.level-b.level)[0];if(q)review(id,q.id);else show('Đã hoàn thành','<p>Không còn câu đến hạn ở học phần này. Bạn có thể chủ động ôn lại một câu bất kỳ trong đề cương.</p>')}
+document.getElementById('hours').addEventListener('change',e=>{state.hours=Math.min(16,Math.max(.5,Number(e.target.value)||4));render()});
+document.getElementById('todayBtn').onclick=()=>{render();document.getElementById('todayTasks').scrollIntoView({behavior:'smooth'})};
+document.getElementById('journalBtn').onclick=()=>{
+ show('Thêm nhật ký học',`<div class="field"><label>Học phần</label><select id="jsub">${state.subjects.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></div><div class="field"><label>Số phút học</label><input id="jmins" type="number" value="30" min="1"></div><div class="field"><label>Số câu đã học/ôn</label><input id="jcount" type="number" value="1" min="1"></div><div class="field"><label>Nội dung / ghi chú</label><textarea id="jnote" placeholder="Hôm nay đã học gì? Cần cải thiện điều gì?"></textarea></div><button onclick="addJournal()">Lưu nhật ký</button>`);
+};
+function addJournal(){let s=sub(document.getElementById('jsub').value);state.journal.unshift({date:todayISO(),subject:s.name,sid:s.id,minutes:Math.max(1,Number(document.getElementById('jmins').value)||1),count:Math.max(1,Number(document.getElementById('jcount').value)||1),note:document.getElementById('jnote').value.trim()});save();close();render()}
+document.getElementById('exportBtn').onclick=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='revision-backup.json';a.click();URL.revokeObjectURL(a.href)};
+document.getElementById('importBtn').onclick=()=>document.getElementById('fileInput').click();
+document.getElementById('fileInput').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let x=JSON.parse(await f.text());if(!x.subjects||!x.journal)throw Error();state=x;save();render();alert('Đã nhập dữ liệu thành công.')}catch(err){alert('Tệp không hợp lệ. Hãy chọn bản sao lưu JSON đã xuất từ ứng dụng.')}e.target.value=''};
+render();
+</script>
+</body></html>
